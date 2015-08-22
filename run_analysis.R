@@ -28,7 +28,8 @@ library(reshape2)
   
 #Indentify the measurements on the mean and standard deviation
 
-  meansdFeatures <- grep("mean[/(]|std[/(]",features$feature)
+  meansdFeatures <- grep("mean[/(]|std[/(]",features$feature) 
+  newVarNames    <- gsub("[()]","",features$feature[meansdFeatures] ) 
   
 #Joint dataBases
 
@@ -37,16 +38,17 @@ library(reshape2)
   yDataSet       <- rbind(trainY,testY) 
 
   allDataSet <- cbind(subDataSet,yDataSet,xDataSet)
-  setnames(allDataSet,c("subject","idActivity",features$feature[meansdFeatures]))
+  setnames(allDataSet,c("subject","idActivity",newVarNames))
   setkey(allDataSet,idActivity)
   setkey(activityLabs,idActivity)
   mergeDataBase <- merge(allDataSet,activityLabs) 
 
 #Reshape and mean by variable
 
-  reshapeDB <- melt(mergeDataBase,id=c("subject","activity"),measure.vars=features$feature[meansdFeatures])
+  reshapeDB <- melt(mergeDataBase,id=c("subject","activity"),measure.vars=newVarNames)
   avgActiv  <- dcast(reshapeDB ,activity + subject ~ variable,mean)
-  setnames(avgActiv,c(names(avgActiv)[1:2],paste("mean(",names(avgActiv)[3:68],")",sep="")))
-
+  
 write.table (avgActiv, file="tidyData.txt",  row.names=FALSE,quote=FALSE)
 }
+
+
