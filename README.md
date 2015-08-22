@@ -1,10 +1,6 @@
-Hugo Andres Dorado Betancourt
-
-Getting And Cleaning data Course
+#The steps created in run_analysis were the next:
 
 The R version used was R-3.2.2
-
-The steps created in run_analysis were the next:
 
 0. The working directory should be set in the folder with the files that contain [Get data](https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip)   
 
